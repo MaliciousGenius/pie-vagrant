@@ -2,7 +2,7 @@
 
 - name: Repository manage | EPEL repository (addition)
   yum:
-    name: "http://mirror.yandex.ru/epel/7/x86_64/e/epel-release-7-5.noarch.rpm"
+    name: "http://mirror.yandex.ru/epel/7/x86_64/Packages/e/epel-release-7-11.noarch.rpm"
     state: present
 
 - name: Repository manage | EPEL repository (disable)

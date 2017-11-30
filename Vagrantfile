@@ -8,7 +8,7 @@ Vagrant.configure("2") do |config|
     pxe.vm.network "public_network", ip: "172.16.0.253", netmask: "255.255.0.0", bridge: "en0: Wi-Fi (AirPort)"
 
     pxe.vm.provision :ansible do |ansible|
-      ansible.playbook = "control-panel.yml"
+      ansible.playbook = "provision.yml"
     end
 
     pxe.vm.provider "virtualbox" do |vm|
