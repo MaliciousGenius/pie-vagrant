@@ -1,0 +1,13 @@
+---
+
+- name: Graphical utility | GNOME PackageKit install
+  yum:
+    name: gnome-packagekit
+    enablerepo: epel
+    state: present
+
+- name: Graphical utility | GNOME Gedit install
+  yum:
+    name: gedit
+    enablerepo: epel
+    state: present

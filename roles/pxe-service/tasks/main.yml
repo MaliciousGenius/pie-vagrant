@@ -1,0 +1,76 @@
+---
+
+- name: Install additional packages
+  yum:
+    pkg: "{{ item }}"
+    state: present
+  with_items:
+    - tftp-server
+    - syslinux
+    - xinetd
+    - httpd
+
+- name: Make directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ pxe_dir }}"
+    - "{{ pxe_dir }}/pxelinux.cfg"
+    - "{{ pxe_dir }}/images/centos7"
+    - "{{ pxe_dir }}/kickstart"
+
+- name: Change permissions
+  file:
+    path: "{{ pxe_dir }}/kickstart"
+    state: directory
+    owner: apache
+    group: apache
+    mode: 0755
+    recurse: yes
+
+- name: Copy PXE files
+  copy:
+    src: "pxe/{{ item }}"
+    dest: "{{ pxe_dir }}/"
+  with_items:
+    - pxelinux.0
+    - vesamenu.c32
+
+- name: Download boot images
+  get_url:
+    url: "http://mirror.yandex.ru/centos/7/os/x86_64/images/pxeboot/{{ item }}"
+    dest: "{{ pxe_dir }}/images/centos7"
+  with_items:
+    - vmlinuz
+    - initrd.img
+
+- name: Copy kickstart files
+  copy:
+    src: "kickstart/{{ item }}"
+    dest: "{{ pxe_dir }}/kickstart/"
+  with_items:
+    - ks.cfg
+
+- name: Add tftp, pxe and apache config file
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  with_items:
+    - { src: tftp.j2, dest: /etc/xinetd.d/tftp }
+    - { src: pxe_default.j2, dest: "{{pxe_dir}}/pxelinux.cfg/default" }
+    - { src: httpd_pxeboot.j2, dest: /etc/httpd/conf.d/pxeboot.conf }
+  notify:
+    - xinetd restart
+    - apache restart
+
+- name: Firewall configure
+  firewalld:
+    zone: public
+    service: "{{ item }}"
+    permanent: true
+    state: enabled
+  with_items:
+    - tftp
+    - http
+  notify: firewall restarted

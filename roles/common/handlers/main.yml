@@ -1,0 +1,7 @@
+---
+
+- name: open-vm-tools restart
+  service:
+    name: vmtoolsd
+    state: restarted
+    enabled: yes

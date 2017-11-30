@@ -1,0 +1,21 @@
+---
+
+- name: Hostname change
+  hostname:
+    name: "{{ inventory_hostname }}"
+
+- name: Disable selinux
+  selinux:
+    state: disabled
+
+- name: Repository manage
+  include: 01-repository-manage.yml
+
+- name: System utility
+  include: 02-system-utility.yml
+
+- name: AD integration
+  include: 03-ad-integration.yml
+
+# Mount cifs
+# http://stackoverflow.com/questions/29899186/how-do-you-provide-domain-credentials-to-ansibles-mount-module

@@ -1,0 +1,10 @@
+---
+
+- name: Active Directory integration | Additional packages install
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - samba-winbind
+    - krb5-workstation
+    - samba-winbind-krb5-locator

@@ -1,0 +1,26 @@
+default vesamenu.c32
+
+prompt 0
+timeout 60
+
+menu color border 0 #ffffffff #00000000
+menu color sel 7 #ffffffff #ff000000
+menu color title 0 #ffffffff #00000000
+menu color unsel 0 #ffffffff #00000000
+menu color disabled 0 #ffffffff #00000000
+menu color timeout_msg 0 #ffffffff #00000000
+menu color timeout 0 #ffffffff #00000000
+menu background #1F45A5
+
+menu title PXE Network Boot Menu
+
+label  Boot from first hard disk
+    localboot
+
+label CentOS 7
+    kernel /images/centos7/vmlinuz
+    append initrd=/images/centos7/initrd.img method=http://mirror.yandex.ru/centos/7/os/x86_64/ devfs=nomount console=ttyS1,115200 console=tty1
+
+label CentOS 7 (autoinstall for template centos7-low)
+    kernel /images/centos7/vmlinuz
+    append initrd=/images/centos7/initrd.img ks=http://{{inventory_hostname }}.{{ domain }}/kickstart/ks.cfg method=http://mirror.yandex.ru/centos/7/os/x86_64/ devfs=nomount console=ttyS1,115200 console=tty1

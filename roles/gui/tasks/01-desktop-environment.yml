@@ -1,0 +1,22 @@
+---
+
+- name: Desktop environment | X Windows install
+  yum:
+    name: "@X Window system"
+    enablerepo: epel
+    state: present
+  notify:
+    - enable graphical
+    - expose graphical
+
+- name: Desktop environment | Fonts install
+  yum:
+    name: "@Fonts"
+    enablerepo: epel
+    state: present
+
+- name: Desktop environment | Xfce install
+  yum:
+    name: "@Xfce"
+    enablerepo: epel
+    state: present

@@ -1,0 +1,13 @@
+---
+
+- name: postgresql started
+  service:
+    name: postgresql-9.4
+    state: started
+    enabled: yes
+
+- name: firewall restarted
+  service:
+    name: firewalld
+    state: restarted
+    enabled: yes

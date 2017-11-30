@@ -1,0 +1,64 @@
+---
+
+- name: Repository manage | EPEL repository (addition)
+  yum:
+    name: "http://mirror.yandex.ru/epel/7/x86_64/e/epel-release-7-5.noarch.rpm"
+    state: present
+
+- name: Repository manage | EPEL repository (disable)
+  ini_file:
+    dest: "/etc/yum.repos.d/epel.repo"
+    section: epel
+    option: enabled
+    value: 0
+
+- name: Repository manage | Nux Dextop repository (addition)
+  yum:
+    name: "http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-5.el7.nux.noarch.rpm"
+    state: present
+
+- name: Repository manage | Nux Dextop repository (disable)
+  ini_file:
+    dest: "/etc/yum.repos.d/nux-dextop.repo"
+    section: nux-dextop
+    option: enabled
+    value: 0
+
+- name: Repository manage | Adobe repository (addition)
+  yum:
+    name: "http://linuxdownload.adobe.com/adobe-release/adobe-release-x86_64-1.0-1.noarch.rpm"
+    state: present
+
+- name: Repository manage | Adobe repository (disable)
+  ini_file:
+    dest: "/etc/yum.repos.d/adobe-linux-x86_64.repo"
+    section: adobe-linux-x86_64
+    option: enabled
+    value: 0
+
+- name: Repository manage | Zabbix repository (addition)
+  yum:
+    name: "http://repo.zabbix.com/zabbix/2.4/rhel/7/x86_64/zabbix-release-2.4-1.el7.noarch.rpm"
+    state: present
+
+- name: Repository manage | Zabbix repository (disable)
+  ini_file:
+    dest: "/etc/yum.repos.d/zabbix.repo"
+    section: "{{ item }}"
+    option: enabled
+    value: 0
+  with_items:
+    - zabbix
+    - zabbix-non-supported
+
+- name: Repository manage | Nginx repository (addition)
+  yum:
+    name: "http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm"
+    state: present
+
+- name: Repository manage | Nginx repository (disable)
+  ini_file:
+    dest: "/etc/yum.repos.d/nginx.repo"
+    section: nginx
+    option: enabled
+    value: 0

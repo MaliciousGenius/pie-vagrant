@@ -1,0 +1,19 @@
+---
+
+- name: enable graphical
+  shell: systemctl set-default graphical.target
+
+- name: expose graphical
+  shell: systemctl isolate graphical.target
+
+- name: x11vnc restarted
+  service:
+    name: x11vnc
+    state: restarted
+    enabled: yes
+
+- name: firewall restarted
+  service:
+    name: firewalld
+    state: restarted
+    enabled: yes

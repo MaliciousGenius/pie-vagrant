@@ -1,0 +1,74 @@
+---
+
+- hosts: all
+  become: True
+
+  tasks:
+    - name: Install additional packages
+      yum:
+        pkg: "{{ item }}"
+        state: present
+      with_items:
+        - tftp-server
+        - syslinux
+        - xinetd
+        - httpd
+
+    - name: install epel-release
+      yum:
+        name: epel-release
+        state: installed
+        update_cache: yes
+
+    - name: groupinstall "X Window System"
+      yum:
+        name: "@X Window System"
+        state: present
+        enablerepo: epel
+        update_cache: yes
+
+    - name: install MATE package group
+      yum:
+        name: "@^MATE Desktop"
+        state: present
+        enablerepo: epel
+        update_cache: yes
+
+    - name: set graphical.target
+      command: systemctl set-default graphical.target
+
+    - name: systemctl isolate graphical.target
+      command: systemctl isolate graphical.target
+
+
+#    - name: install packages
+#      package:
+#        name: "{{ item }}"
+#        state: installed
+#      with_items:
+#        - git
+#        - gcc
+#        - automake
+#        - make
+#        - kernel-headers
+#        - kernel-devel
+#        - perl
+#        - vagrant
+#        - vagrant-libvirt
+#        - virt-manager
+#        - docker-ce
+#      become: yes
+
+    - name: disable services
+      service:
+        name: "{{ item }}"
+        enabled: no
+      with_items:
+        - bluetooth
+        - cups
+        - dmraid-activation
+        - iscsi
+        - lvm2-monitor
+        - mcelog
+        - mdmonitor
+        - multipathd

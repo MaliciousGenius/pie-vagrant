@@ -1,0 +1,26 @@
+---
+
+- name: System utility | Base packages install
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - yum-plugin-fastestmirror
+    - lvm2
+    - wget
+    - git
+    - mc
+
+- name: System utility | Development Tools install
+  yum:
+    name: "@Development Tools"
+    state: present
+
+- name: System utility | Open VM Tools install
+  yum:
+    name: open-vm-tools
+    state: present
+  when: ansible_virtualization_type == "VMware" and ansible_virtualization_role == "guest"
+  notify: open-vm-tools restart
+
+# This add install Java

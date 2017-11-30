@@ -1,0 +1,19 @@
+---
+
+- name: xinetd restart
+  service:
+    name: xinetd
+    state: restarted
+    enabled: yes
+
+- name: apache restart
+  service:
+    name: httpd
+    state: restarted
+    enabled: yes
+
+- name: firewall restarted
+  service:
+    name: firewalld
+    state: restarted
+    enabled: yes
